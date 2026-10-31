@@ -16,9 +16,23 @@ import { RosterRow } from './RosterRow';
  * editor keeps showing the saved list, so a failed save visibly changes
  * nothing.
  */
-export function MyRosterRow({ bandId, member }: { bandId: string; member: RosterMember }) {
-  const [isEditing, setEditing] = useState(false);
+export function MyRosterRow({
+  bandId,
+  member,
+  onEditingChange,
+}: {
+  bandId: string;
+  member: RosterMember;
+  /** Lets the screen step back while I edit: one primary action at a time (D55). */
+  onEditingChange?: (isEditing: boolean) => void;
+}) {
+  const [isEditing, setEditingState] = useState(false);
   const update = useUpdateInstruments(bandId);
+
+  const setEditing = (next: boolean) => {
+    setEditingState(next);
+    onEditingChange?.(next);
+  };
 
   const close = () => {
     update.reset();

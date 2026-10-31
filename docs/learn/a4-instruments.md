@@ -81,12 +81,19 @@ TypeScript narrows on `ok`: you can only read `failure` on the branch that has o
 
 `jest.mock()` factories are hoisted above imports. They may only use variables whose name starts with `mock`. `calls` failed; `mockCalls` works.
 
+## What the device check found
+
+Elia ran it on his phone and saw two primary buttons at once: Save in the editor and "Invite the band" under the roster. One screen should have one main action (Nielsen's heuristics: aesthetic and minimalist design, consistency and standards). The fix: the roster reports "I'm editing" up to the screen, and the screen hides Invite while the editor is open (D55).
+
+The lesson for the agent: unit tests can't see this. Only running the app and looking at the whole screen can. That is [agent-kit issue 92](https://github.com/ferrarolabs/agent-kit/issues/92).
+
 ## Decisions taken (decision log)
 
 - D51 — editor on my own roster row, not in a Me tab: instruments are per band.
 - D52 — suggestions plus free text; normalised before saving.
 - D53 — empty list is valid and never prompted for.
 - D54 — save is not optimistic; no row back from an update = refusal.
+- D55 — one primary action at a time: Invite is hidden while I edit.
 
 ## Alternatives rejected
 

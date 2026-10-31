@@ -22,11 +22,14 @@ export function Roster({
   bandId,
   members,
   myUserId,
+  onEditingChange,
 }: {
   bandId: string;
   members: RosterMember[];
   /** Only this member's row gets "Edit" (story A4). */
   myUserId: string | null;
+  /** True while my instruments editor is open. */
+  onEditingChange?: (isEditing: boolean) => void;
 }) {
   return (
     <Card>
@@ -37,7 +40,12 @@ export function Roster({
       <View style={styles.list}>
         {members.map((member) =>
           member.userId === myUserId ? (
-            <MyRosterRow key={member.userId} bandId={bandId} member={member} />
+            <MyRosterRow
+              key={member.userId}
+              bandId={bandId}
+              member={member}
+              onEditingChange={onEditingChange}
+            />
           ) : (
             <RosterRow key={member.userId} member={member} />
           ),

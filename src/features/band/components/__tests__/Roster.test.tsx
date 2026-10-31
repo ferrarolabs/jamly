@@ -80,4 +80,29 @@ describe('Roster', () => {
     // Still editing, so the draft can be saved again once back online.
     expect(screen.getByRole('button', { name: 'Save' })).toBeTruthy();
   });
+
+  it('tells the screen while I edit, so it can hide the other primary action', async () => {
+    const user = userEvent.setup();
+    const onEditingChange = jest.fn();
+    mockUpdate.submit.mockResolvedValue(true);
+
+    await render(
+      <Roster
+        bandId="b-1"
+        members={members}
+        myUserId="u-1"
+        onEditingChange={onEditingChange}
+      />,
+    );
+
+    await user.press(screen.getByRole('button', { name: 'Edit' }));
+    expect(onEditingChange).toHaveBeenLastCalledWith(true);
+
+    await user.press(screen.getByRole('button', { name: 'Cancel' }));
+    expect(onEditingChange).toHaveBeenLastCalledWith(false);
+
+    await user.press(screen.getByRole('button', { name: 'Edit' }));
+    await user.press(screen.getByRole('button', { name: 'Save' }));
+    expect(onEditingChange).toHaveBeenLastCalledWith(false);
+  });
 });

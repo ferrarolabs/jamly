@@ -87,6 +87,16 @@ Elia ran it on his phone and saw two primary buttons at once: Save in the editor
 
 The lesson for the agent: unit tests can't see this. Only running the app and looking at the whole screen can. That is [agent-kit issue 92](https://github.com/ferrarolabs/agent-kit/issues/92).
 
+## What the agent's own run found
+
+Once Supabase was reachable from the cloud session, the agent signed in with a test account on the web build and walked the feature with Playwright. Every unit test was green, and it still found a bug: offline, Save said "Something went wrong" instead of "Can't reach Jamly".
+
+Why: when `fetch` fails, postgrest-js does not throw. It **returns** `{ error: { message: 'TypeError: Failed to fetch', code: '' } }`, a plain object. `looksOffline` only recognised real `Error` instances. The unit tests had mocked a thrown `TypeError`, a shape the library never produces for this call. The fix reads `message` from any object, and a new test uses the real shape.
+
+Lesson: a mock is only as true as the shape you give it. Copy the shape from the real library, or from a real run.
+
+Screenshots from that run are in [a4-instruments/](a4-instruments/).
+
 ## Decisions taken (decision log)
 
 - D51 — editor on my own roster row, not in a Me tab: instruments are per band.

@@ -22,11 +22,26 @@ export function bandFailure(reason: BandFailure['reason']): BandFailure {
   return { reason, message: messages[reason] };
 }
 
+/**
+ * A dead connection reaches us in two shapes: a thrown `TypeError`, or — far
+ * more often — a plain `{ message: 'TypeError: Failed to fetch', code: '' }`
+ * that postgrest-js returns instead of throwing. Both carry the words; only
+ * the first is an `Error`. Found by running the app offline, not by a test.
+ */
 function looksOffline(error: unknown): boolean {
+  const message = messageOf(error);
   return (
-    error instanceof Error &&
-    /network request failed|fetch failed|failed to fetch|timeout/i.test(error.message)
+    message !== null &&
+    /network request failed|fetch failed|failed to fetch|timeout/i.test(message)
   );
+}
+
+function messageOf(error: unknown): string | null {
+  if (error && typeof error === 'object' && 'message' in error) {
+    const { message } = error as { message?: unknown };
+    if (typeof message === 'string') return message;
+  }
+  return null;
 }
 
 /** postgrest-js errors carry `code`; a thrown TypeError does not. */

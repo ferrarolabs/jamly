@@ -104,6 +104,21 @@ describe('updateMyInstruments', () => {
     });
   });
 
+  it('reads a dead connection that postgrest returns rather than throws as offline', async () => {
+    // The shape postgrest-js actually returns when fetch fails, seen running the app.
+    mockResponse = {
+      data: null,
+      error: { message: 'TypeError: Failed to fetch', details: '', hint: '', code: '' },
+    };
+
+    const result = await updateMyInstruments('b-1', 'u-1', ['drums']);
+
+    expect(result).toEqual({
+      ok: false,
+      failure: expect.objectContaining({ reason: 'offline' }),
+    });
+  });
+
   it('says so plainly when the build has no backend', async () => {
     mockState.configured = false;
 

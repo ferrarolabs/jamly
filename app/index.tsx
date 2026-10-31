@@ -67,8 +67,8 @@ export default function BandHomeScreen() {
         <Card style={styles.card}>
           <Text variant="heading">Got an invite?</Text>
           <Text tone="secondary" style={styles.spaced}>
-            Tapping the link your band sent is the quick way. If that
-            didn&apos;t work, paste it here.
+            Tapping the link your band sent is the quick way. If that didn&apos;t work, paste it
+            here.
           </Text>
           <View style={styles.spaced}>
             <JoinByCodeForm />
@@ -113,9 +113,7 @@ export default function BandHomeScreen() {
 }
 
 function SignOut({ onPress }: { onPress: () => void }) {
-  return (
-    <Button label="Sign out" variant="ghost" onPress={onPress} style={styles.signOut} />
-  );
+  return <Button label="Sign out" variant="ghost" onPress={onPress} style={styles.signOut} />;
 }
 
 const styles = StyleSheet.create({

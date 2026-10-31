@@ -24,25 +24,26 @@ The switch must cost zero rewrite. That is an architecture requirement, not a bu
 
 Rejected: per-band subscription (BandHelper's model, ~$8/mo for 2–5 members).
 
-| | Per-band | **Individual (chosen)** |
-|---|---|---|
-| Who decides | One person must convince the band to spend shared money | Each person decides for themselves |
-| Failure mode | One holdout blocks the whole band | A non-payer keeps using the free tier; band still works |
-| Follows the user | No — leave the band, lose access | **Yes — Pro follows the person across bands and instruments** |
-| Fits our roadmap | Fits band features only | Fits the personal layer (practice, gear, discovery) which is where v0.2+ value lives |
-| Billing complexity | Group ownership, proration, member changes — genuinely hard | Simple: one account, one subscription |
+|                    | Per-band                                                    | **Individual (chosen)**                                                              |
+| ------------------ | ----------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| Who decides        | One person must convince the band to spend shared money     | Each person decides for themselves                                                   |
+| Failure mode       | One holdout blocks the whole band                           | A non-payer keeps using the free tier; band still works                              |
+| Follows the user   | No — leave the band, lose access                            | **Yes — Pro follows the person across bands and instruments**                        |
+| Fits our roadmap   | Fits band features only                                     | Fits the personal layer (practice, gear, discovery) which is where v0.2+ value lives |
+| Billing complexity | Group ownership, proration, member changes — genuinely hard | Simple: one account, one subscription                                                |
 
 The deciding argument: **Pro features will mostly be personal features.** Practice analytics, unlimited storage, personal chart tools, gear libraries — these are things one musician values for themselves. Charging the band for them would be incoherent.
 
-**Hard rule:** *shared* band functionality must never be gated. If Marco pays and Sara doesn't, the band must still work perfectly for both. The moment a paywall breaks the group, we've reintroduced the adoption problem we exist to solve.
+**Hard rule:** _shared_ band functionality must never be gated. If Marco pays and Sara doesn't, the band must still work perfectly for both. The moment a paywall breaks the group, we've reintroduced the adoption problem we exist to solve.
 
 ---
 
 ## What becomes Pro (draft — subject to change before Phase 2)
 
-The test for each: *does gating this hurt anyone other than the person choosing not to pay?* If yes, it stays free forever.
+The test for each: _does gating this hurt anyone other than the person choosing not to pay?_ If yes, it stays free forever.
 
 ### Always free, permanently
+
 - Creating and joining bands, unlimited members
 - Repertoire, setlists, events, live setlist sync
 - Rehearsal/gig scheduling and availability
@@ -51,32 +52,34 @@ The test for each: *does gating this hurt anyone other than the person choosing 
 - **Full data export** — always, for everyone, no exceptions
 
 ### Candidate Pro features
-| Feature | Why it's fair to charge |
-|---|---|
-| Practice analytics & long history | Personal value, compounds over time, costs storage. Modacity charges $12.99/mo for less |
-| Large file storage above the free allowance | Real marginal cost per user |
-| Advanced chart tools (transposition, annotation, custom layouts) | Real development effort, purely personal benefit |
-| Multiple bands beyond a small number | Correlates with professional use and willingness to pay |
-| Full gear preset library, private preset collections | Personal |
-| Export to PDF / print-ready set sheets | Convenience, no one else is blocked |
-| Priority/beta access, supporter badge | Costs nothing, some people just want to support it |
+
+| Feature                                                          | Why it's fair to charge                                                                 |
+| ---------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| Practice analytics & long history                                | Personal value, compounds over time, costs storage. Modacity charges $12.99/mo for less |
+| Large file storage above the free allowance                      | Real marginal cost per user                                                             |
+| Advanced chart tools (transposition, annotation, custom layouts) | Real development effort, purely personal benefit                                        |
+| Multiple bands beyond a small number                             | Correlates with professional use and willingness to pay                                 |
+| Full gear preset library, private preset collections             | Personal                                                                                |
+| Export to PDF / print-ready set sheets                           | Convenience, no one else is blocked                                                     |
+| Priority/beta access, supporter badge                            | Costs nothing, some people just want to support it                                      |
 
 ### Never
+
 - Ads of any kind
 - Selling or brokering user data
 - Locking a user's own data behind a payment
-- Anything that degrades the experience of a free member *inside a band that has paying members*
+- Anything that degrades the experience of a free member _inside a band that has paying members_
 
 ---
 
 ## Price anchors from research
 
-| Product | Price | Note |
-|---|---|---|
+| Product                      | Price                  | Note                                                |
+| ---------------------------- | ---------------------- | --------------------------------------------------- |
 | Modacity (personal practice) | **$12.99/mo, $129/yr** | Proves the ceiling for a purely personal music tool |
-| BandHelper Pro (2–5 band) | **$8/mo, $80/yr** | Per band — ~$1.60–4/mo per person |
-| Ultimate Guitar Pro | **~$3–10/mo** | Mass-market floor |
-| forScore, OnSong | one-time purchase | The habit of paying once, which subscriptions fight |
+| BandHelper Pro (2–5 band)    | **$8/mo, $80/yr**      | Per band — ~$1.60–4/mo per person                   |
+| Ultimate Guitar Pro          | **~$3–10/mo**          | Mass-market floor                                   |
+| forScore, OnSong             | one-time purchase      | The habit of paying once, which subscriptions fight |
 
 **Working hypothesis for Phase 2:** €3.99–4.99/month, €39–45/year. Below the Modacity anchor, above the Ultimate Guitar floor, and roughly what one person's share of a BandHelper subscription costs — so it reads as fair to anyone who has compared. `ASSUMPTION:` to be tested in the validation interviews, not guessed at launch.
 
@@ -100,15 +103,15 @@ Breaking this rule is the single fastest way to destroy trust in a community as 
 
 What one active user actually costs to serve, so pricing is grounded rather than invented.
 
-| Resource | Driver | Estimate |
-|---|---|---|
-| Postgres rows | Songs, setlists, events, practice logs — all small text records | Negligible |
-| File storage | The real cost: PDFs (~1MB), rehearsal audio (~5–50MB) | **The dominant variable** |
-| Realtime messages | Only during rehearsals/shows, a few messages per song change | Negligible |
-| Bandwidth | Chart downloads, audio streaming | Moderate, follows storage |
-| Auth / MAU | Free at our scale on the chosen backend | €0 |
+| Resource          | Driver                                                          | Estimate                  |
+| ----------------- | --------------------------------------------------------------- | ------------------------- |
+| Postgres rows     | Songs, setlists, events, practice logs — all small text records | Negligible                |
+| File storage      | The real cost: PDFs (~1MB), rehearsal audio (~5–50MB)           | **The dominant variable** |
+| Realtime messages | Only during rehearsals/shows, a few messages per song change    | Negligible                |
+| Bandwidth         | Chart downloads, audio streaming                                | Moderate, follows storage |
+| Auth / MAU        | Free at our scale on the chosen backend                         | €0                        |
 
-**Practical conclusion:** Jamly's marginal cost is essentially *file storage and egress*. Text data is free. This is why the free tier is generous on features and bounded on storage — the gating dimension should match the cost dimension.
+**Practical conclusion:** Jamly's marginal cost is essentially _file storage and egress_. Text data is free. This is why the free tier is generous on features and bounded on storage — the gating dimension should match the cost dimension.
 
 **Phase 1 budget:** free tier of the backend platform, target €0/month, hard ceiling €20/month before the model is revisited. Storage limits per band exist from day one as a **cost guard**, set high enough that no honest user hits them.
 

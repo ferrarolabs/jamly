@@ -16,9 +16,10 @@
 **Jamly — everything your band agreed on, on everyone's screen. Even the drummer's.**
 
 Alternates to test:
-- *The band app your bandmates will actually open.*
-- *One place for your band. One place for your playing.*
-- *From the rehearsal room to the stage to your practice at home.*
+
+- _The band app your bandmates will actually open._
+- _One place for your band. One place for your playing._
+- _From the rehearsal room to the stage to your practice at home._
 
 ## Elevator pitch (30 seconds)
 
@@ -31,14 +32,17 @@ Alternates to test:
 Everything Jamly says in public reduces to these. If a message doesn't ladder up to one of them, cut it.
 
 ### 1. The whole band actually uses it
+
 The differentiator is adoption, not features. The incumbent's own users report they can't get their bandmates on board ([02](02-market-and-competitors.md)). We treat the passive member as the primary user.
 **Proof points:** join by link, no configuration, useful first screen, ≤30 second onboarding.
 
 ### 2. It works where music happens
+
 Rehearsal rooms and venues have concrete walls and no signal. Offline-first from day one, not bolted on.
 **Proof points:** full read/write offline, live sync when connected, stage-readable dark UI.
 
 ### 3. Your band makes you better
+
 The claim nobody else can make, because nobody else holds both halves of the data.
 **Proof points:** setlist-derived practice list, per-song confidence, personal layer on shared songs.
 
@@ -67,11 +71,11 @@ Yes, by design and by legal necessity. Charts and files live only inside your ba
 
 Jamly talks like a bandmate who happens to be organized — not like software.
 
-| Do | Don't |
-|---|---|
-| "Saturday, 21:00, Blue Note. You're in." | "Event successfully created." |
-| "4 songs you haven't touched in a while." | "Optimize your practice efficiency!" |
-| Plain, short, slightly warm | Corporate, exclamation marks, "seamless", "revolutionize" |
+| Do                                                    | Don't                                                         |
+| ----------------------------------------------------- | ------------------------------------------------------------- |
+| "Saturday, 21:00, Blue Note. You're in."              | "Event successfully created."                                 |
+| "4 songs you haven't touched in a while."             | "Optimize your practice efficiency!"                          |
+| Plain, short, slightly warm                           | Corporate, exclamation marks, "seamless", "revolutionize"     |
 | Musician's vocabulary: set, chart, rehearsal, load-in | Generic productivity vocabulary: task, item, entity, resource |
 
 The vocabulary rule is enforced technically: the [domain model](../product/13-domain-model.md) uses musicians' words as its type names, so the code and the UI can't drift apart.
@@ -83,6 +87,7 @@ The vocabulary rule is enforced technically: the [domain model](../product/13-do
 **Jamly** — "jam" + a light suffix. Short, pronounceable in Italian and English, obviously music-adjacent, works as a verb-ish brand.
 
 **Trademark status: unresolved, non-blocking.** A search found a `Jamly Technological Inspirations` entry on Crunchbase in an unrelated category, and no music app of that name in the stores. Before any public launch or paid marketing:
+
 - [ ] Search EUIPO (primary jurisdiction) and USPTO for classes 9 (software) and 42 (SaaS)
 - [ ] Check App Store / Google Play for name collisions
 - [ ] Check `jamly.app` / `jamly.io` / `getjamly.com` availability

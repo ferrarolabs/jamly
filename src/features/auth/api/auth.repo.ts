@@ -89,11 +89,9 @@ export async function getStoredUser(): Promise<AuthUser | null> {
 export function onAuthStateChange(listener: (user: AuthUser | null) => void): () => void {
   if (!isBackendConfigured) return () => {};
 
-  const { data } = getSupabase().auth.onAuthStateChange(
-    (_event, session: Session | null) => {
-      listener(session ? toAuthUser(session.user) : null);
-    },
-  );
+  const { data } = getSupabase().auth.onAuthStateChange((_event, session: Session | null) => {
+    listener(session ? toAuthUser(session.user) : null);
+  });
 
   return () => data.subscription.unsubscribe();
 }

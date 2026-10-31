@@ -36,9 +36,7 @@ export function InviteCard({ band, role }: { band: Band; role: MemberRole }) {
       <Text variant="heading">Invite the band</Text>
 
       <Text tone="secondary">
-        Send this to the rest of the band. Anyone who opens it joins
-        {' '}
-        {band.name}.
+        Send this to the rest of the band. Anyone who opens it joins {band.name}.
       </Text>
 
       <View style={styles.linkBox}>
@@ -70,8 +68,8 @@ export function InviteCard({ band, role }: { band: Band; role: MemberRole }) {
             disabled={rotate.isSubmitting}
           />
           <Text variant="caption" tone="muted">
-            Resetting stops the old link working — use it if it went somewhere
-            it shouldn&apos;t have.
+            Resetting stops the old link working — use it if it went somewhere it shouldn&apos;t
+            have.
           </Text>
         </>
       ) : null}

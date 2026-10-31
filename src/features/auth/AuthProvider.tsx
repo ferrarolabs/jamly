@@ -30,9 +30,7 @@ import type { AuthUser } from './types';
 
 export type AuthState =
   /** Reading the keystore. Lasts a few milliseconds and must not flash a screen. */
-  | { status: 'restoring' }
-  | { status: 'signedOut' }
-  | { status: 'signedIn'; user: AuthUser };
+  { status: 'restoring' } | { status: 'signedOut' } | { status: 'signedIn'; user: AuthUser };
 
 type AuthContextValue = {
   state: AuthState;

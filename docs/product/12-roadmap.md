@@ -1,6 +1,6 @@
 # 12 — Roadmap
 
-> **Milestone-based, not date-based.** A solo developer with a day job cannot honestly predict dates, and fake dates only generate guilt. Each milestone is defined by *what a band can do* when it's finished.
+> **Milestone-based, not date-based.** A solo developer with a day job cannot honestly predict dates, and fake dates only generate guilt. Each milestone is defined by _what a band can do_ when it's finished.
 >
 > **Every milestone ends with real users.** A milestone that ships to nobody hasn't shipped.
 
@@ -19,6 +19,7 @@
 ```
 
 The order is not arbitrary:
+
 1. **The band loop first**, because Jamly is worthless to one person and the multiplayer problem is the riskiest thing to learn ([R2](../business/06-risks-and-open-questions.md)).
 2. **The personal layer second**, because it's the moat — but it needs band data to feed on. Built first, it would be a worse Modacity.
 3. **Money third**, because it's high value but zero-differentiation; competitors all have it and nobody chooses a tool for it.
@@ -26,7 +27,7 @@ The order is not arbitrary:
 
 ---
 
-## v0.0 — Foundation *(this milestone)*
+## v0.0 — Foundation _(this milestone)_
 
 **Goal:** the project exists, the thinking is written down, and the app runs on a phone.
 
@@ -39,7 +40,7 @@ The order is not arbitrary:
 - [x] v0.1 schema as a versioned migration with row-level security
 - [ ] First validation interviews ([14-validation-plan](14-validation-plan.md)) — start now, they can still change v0.1
 
-**Done when:** `npx expo start` opens the app on a real phone with the five main screens navigable, and every decision so far has a document behind it. ✅ *reached 2026-09-01*
+**Done when:** `npx expo start` opens the app on a real phone with the five main screens navigable, and every decision so far has a document behind it. ✅ _reached 2026-09-01_
 
 ---
 
@@ -50,6 +51,7 @@ The order is not arbitrary:
 Full scope in [11-mvp-scope](11-mvp-scope.md). In short: join by link → repertoire → setlists → live sync on stage → works offline.
 
 **Done when:**
+
 - All Epic A–F acceptance criteria pass on iOS and Android
 - A band with ≥4 members has played a real gig on it
 - Zero data loss, no critical crash during that gig
@@ -64,20 +66,20 @@ Full scope in [11-mvp-scope](11-mvp-scope.md). In short: join by link → repert
 
 **Goal:** Jamly starts giving something back to the individual musician, and becomes worth keeping between gigs.
 
-| Feature | ID |
-|---|---|
-| Log a practice session | `F401` |
-| Per-song confidence rating (surface what v0.1 modelled) | `F402` |
-| **Practice list generated from the band's next setlist** ⭐ | `F403` |
-| Practice history & stats | `F404` |
-| "Are we ready?" — band readiness vs. next gig | `F405` |
-| Offline **writes** with sync on reconnect | `F603` |
-| Push notifications: new event, setlist changed | `F212` |
-| Multi-band support | `F216` |
-| Calendar export | `F211` |
-| Tablet layouts | `F606` |
-| Per-member charts | `F112` |
-| Light theme, data export, accessibility pass | `F605` `F609` `F612` |
+| Feature                                                     | ID                   |
+| ----------------------------------------------------------- | -------------------- |
+| Log a practice session                                      | `F401`               |
+| Per-song confidence rating (surface what v0.1 modelled)     | `F402`               |
+| **Practice list generated from the band's next setlist** ⭐ | `F403`               |
+| Practice history & stats                                    | `F404`               |
+| "Are we ready?" — band readiness vs. next gig               | `F405`               |
+| Offline **writes** with sync on reconnect                   | `F603`               |
+| Push notifications: new event, setlist changed              | `F212`               |
+| Multi-band support                                          | `F216`               |
+| Calendar export                                             | `F211`               |
+| Tablet layouts                                              | `F606`               |
+| Per-member charts                                           | `F112`               |
+| Light theme, data export, accessibility pass                | `F605` `F609` `F612` |
 
 **Done when:** a member can open Jamly on a Tuesday with no gig in sight and get something useful — the answer to "what should I practise?"
 
@@ -89,17 +91,17 @@ Full scope in [11-mvp-scope](11-mvp-scope.md). In short: join by link → repert
 
 **Goal:** the band stops having awkward conversations about who's been paid.
 
-| Feature | ID |
-|---|---|
-| Gig fee & earnings tracking | `F207` |
-| Payout tracking — who's been paid | `F208` |
-| Shared expenses and splitting | `F209` |
-| Performance history | `F210` |
+| Feature                            | ID     |
+| ---------------------------------- | ------ |
+| Gig fee & earnings tracking        | `F207` |
+| Payout tracking — who's been paid  | `F208` |
+| Shared expenses and splitting      | `F209` |
+| Performance history                | `F210` |
 | ChordPro charts with transposition | `F111` |
-| Setlist templates / duplicate | `F116` |
-| Export setlist to PDF | `F117` |
-| Web build | `F607` |
-| Italian localization | `F611` |
+| Setlist templates / duplicate      | `F116` |
+| Export setlist to PDF              | `F117` |
+| Web build                          | `F607` |
+| Italian localization               | `F611` |
 
 **Done when:** a band can answer "what did we earn this year and who still owes whom" without a spreadsheet.
 
@@ -111,15 +113,15 @@ Full scope in [11-mvp-scope](11-mvp-scope.md). In short: join by link → repert
 
 **Goal:** open the least contested niche found in the research — and the first Jamly feature that can be genuinely public.
 
-| Feature | ID |
-|---|---|
-| Gear profile / instrument list | `F301` |
-| Named setup presets per instrument | `F302` |
+| Feature                                   | ID     |
+| ----------------------------------------- | ------ |
+| Gear profile / instrument list            | `F301` |
+| Named setup presets per instrument        | `F302` |
 | **Drum tuning presets** — the empty niche | `F303` |
-| Pedalboard / amp chains | `F304` |
-| Keys patches, bass rigs, IEM mixes | `F305` |
-| **Public preset sharing & browsing** | `F306` |
-| Attach a setup to a song or event | `F307` |
+| Pedalboard / amp chains                   | `F304` |
+| Keys patches, bass rigs, IEM mixes        | `F305` |
+| **Public preset sharing & browsing**      | `F306` |
+| Attach a setup to a song or event         | `F307` |
 
 **Done when:** a drummer can save the tuning that worked at a venue and find someone else's for a room like it.
 

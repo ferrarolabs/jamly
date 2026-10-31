@@ -35,10 +35,7 @@
               "pathPrefix": "/join"
             }
           ],
-          "category": [
-            "BROWSABLE",
-            "DEFAULT"
-          ]
+          "category": ["BROWSABLE", "DEFAULT"]
         }
       ]
     },
@@ -46,11 +43,7 @@
       "bundler": "metro",
       "favicon": "./assets/favicon.png"
     },
-    "plugins": [
-      "expo-router",
-      "expo-sqlite",
-      "expo-secure-store"
-    ],
+    "plugins": ["expo-router", "expo-sqlite", "expo-secure-store"],
     "experiments": {
       "typedRoutes": true
     },

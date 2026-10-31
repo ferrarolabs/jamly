@@ -26,9 +26,7 @@ describe('totalDuration', () => {
   it('treats missing durations as zero rather than losing the total', () => {
     // A song without a duration must not make the running time disappear —
     // the leader needs "do we have 90 minutes?" answered even with gaps.
-    expect(
-      totalDuration([{ durationSeconds: 210 }, { durationSeconds: null }, {}]),
-    ).toBe(210);
+    expect(totalDuration([{ durationSeconds: 210 }, { durationSeconds: null }, {}])).toBe(210);
   });
 
   it('handles an empty set', () => {

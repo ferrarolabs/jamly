@@ -8,12 +8,12 @@
 
 **One milestone at a time. One feature at a time. Always something visible.**
 
-| Cadence | Practice |
-|---|---|
-| **Each session** | Start by reading the current milestone's scope. End with the code committed and running, even if unfinished |
-| **Each week** | At least one user-visible change. A week of pure refactoring is a warning sign |
-| **Each milestone** | Ends with real people using it. A milestone that ships to nobody hasn't shipped ([12-roadmap](../product/12-roadmap.md)) |
-| **Each milestone end** | Re-read [06-risks](../business/06-risks-and-open-questions.md) and update the docs that reality has contradicted |
+| Cadence                | Practice                                                                                                                 |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| **Each session**       | Start by reading the current milestone's scope. End with the code committed and running, even if unfinished              |
+| **Each week**          | At least one user-visible change. A week of pure refactoring is a warning sign                                           |
+| **Each milestone**     | Ends with real people using it. A milestone that ships to nobody hasn't shipped ([12-roadmap](../product/12-roadmap.md)) |
+| **Each milestone end** | Re-read [06-risks](../business/06-risks-and-open-questions.md) and update the docs that reality has contradicted         |
 
 **After a gap:** don't try to remember. Read [11-mvp-scope](../product/11-mvp-scope.md), the [decision log](41-decision-log.md), and `git log`. The documents exist precisely so that returning costs an hour, not a week.
 
@@ -22,24 +22,31 @@
 ## Working rules
 
 ### 1. Finish before starting
-Only one feature in progress. If something is blocked, note the blocker and finish the *smallest* thing that reaches "done", rather than opening a second front. Half-finished parallel work is how a project becomes intimidating to open.
+
+Only one feature in progress. If something is blocked, note the blocker and finish the _smallest_ thing that reaches "done", rather than opening a second front. Half-finished parallel work is how a project becomes intimidating to open.
 
 ### 2. New ideas go to the inventory, immediately
+
 A good idea mid-feature is a threat, not a gift. Write it into [10-feature-inventory](../product/10-feature-inventory.md) and return to what you were doing. The idea is safe; the momentum isn't.
 
 ### 3. Ship ugly before shipping nothing
+
 A working screen with mediocre spacing beats a perfect screen that doesn't exist. Polish is a milestone (v1.0), not a permanent state.
 
 ### 4. The definition of done is real
+
 From [33-conventions](../tech/33-conventions.md): both platforms, types pass, lint passes, works offline if it's a read path, respects the theme, decisions recorded. "It works on my phone" is not done.
 
 ### 5. Real users beat discipline
+
 Someone waiting for a feature is worth more than any productivity technique. Get a real band on v0.1 as early as it's usable, even embarrassingly early.
 
-### 6. Document the *why*, not the *what*
+### 6. Document the _why_, not the _what_
+
 The code says what. Documents say why. Significant technical decisions → an [ADR](../tech/adr/README.md); everything else → the [decision log](41-decision-log.md). Two minutes now, an hour saved later.
 
 ### 7. Timebox the rabbit holes
+
 Two hours stuck on one problem → write down what was tried, and move to something else. The answer usually arrives on the way back.
 
 ---
@@ -78,6 +85,7 @@ Pinned here because it's the rule most often bent:
 The failure mode of documentation is silent decay — and this project has a lot of it.
 
 **Rules:**
+
 1. Docs change **in the same commit** as the code that contradicts them.
 2. At every milestone end, re-read `docs/README.md` and check each linked doc for statements that reality has falsified.
 3. **A wrong document is worse than no document.** Delete rather than leave stale.

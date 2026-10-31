@@ -4,11 +4,11 @@
  * musician actually had to hand has to turn into a code, or into nothing.
  */
 
+import { buildInviteMessage, buildInviteUrl, parseInviteCode } from '../inviteLink';
+
 jest.mock('expo-linking', () => ({
   createURL: (path: string) => `jamly://${path}`,
 }));
-
-import { buildInviteMessage, buildInviteUrl, parseInviteCode } from '../inviteLink';
 
 describe('buildInviteUrl', () => {
   it('builds a link this build can actually open', () => {

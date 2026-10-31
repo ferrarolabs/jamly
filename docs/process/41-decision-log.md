@@ -96,6 +96,17 @@ than the outcome, and because the reversal itself was the decision.
 
 ---
 
+## 2026-10-31 — What I play in this band (story A4)
+
+| #   | Decision                                                                                                                | Why                                                                                                                                                                                                                                                                                                  | See                                                                                                                     |
+| --- | ----------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| D51 | **Instruments are edited on my own roster row on `BandHome`, behind an "Edit" button — not in a Me tab or `MyProfile`** | Instruments live on the membership, so they are per band: a list in a profile screen would have to ask "which band?" first, or pretend to be global. The roster is where the band reads them, so it is where I change them. Only my own row has the button. Confirmed by Elia, 2026-10-31            | `src/features/band/components/MyRosterRow.tsx`, [21-information-architecture](../design/21-information-architecture.md) |
+| D52 | **Tap-to-add suggestions (drums, bass, guitar, keys, vox) plus free text**                                              | Instruments are free-form strings, not an enum (13-domain-model). Suggestions make the common case one tap; free text covers "occasional harmonica". Entries are trimmed and de-duplicated ignoring case before they are saved, first spelling wins. Confirmed by Elia, 2026-10-31                   | `src/features/band/instruments.ts`                                                                                      |
+| D53 | **An empty list is valid, the default, and never prompted for**                                                         | No "complete your profile" prompts (20-design-principles). The drummer who never opens the editor loses nothing                                                                                                                                                                                      | `src/features/band/components/InstrumentsEditor.tsx`                                                                    |
+| D54 | **The save is not optimistic, and an update that comes back with no row is a refusal**                                  | A failed save must leave the previous list on the roster, so the cache changes only after the database says yes. Row-level security does not raise on an update it filters out — it updates nothing — so the repository asks for the row back and treats none as "you may no longer be in this band" | `src/features/band/api/band.repo.ts`                                                                                    |
+
+---
+
 ## Open decisions
 
 Deliberately not yet decided. Recorded so they aren't forgotten — and so nobody assumes they were settled.

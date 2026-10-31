@@ -36,7 +36,13 @@ export type RosterMember = {
  * (docs/tech/33-conventions.md).
  */
 export type BandFailureReason =
-  'notSignedIn' | 'nameRequired' | 'notAllowed' | 'offline' | 'backendUnconfigured' | 'unknown';
+  | 'notSignedIn'
+  | 'nameRequired'
+  | 'notAllowed'
+  | 'notInBand'
+  | 'offline'
+  | 'backendUnconfigured'
+  | 'unknown';
 
 export type BandFailure = {
   reason: BandFailureReason;
@@ -47,6 +53,10 @@ export type BandFailure = {
 export type CreateBandResult = { ok: true; band: Band } | { ok: false; failure: BandFailure };
 
 export type RotateInviteResult = { ok: true; band: Band } | { ok: false; failure: BandFailure };
+
+/** Story A4. On success, the list as the database now holds it. */
+export type UpdateInstrumentsResult =
+  { ok: true; instruments: string[] } | { ok: false; failure: BandFailure };
 
 /**
  * What happened when a code was redeemed.

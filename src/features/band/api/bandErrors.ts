@@ -12,6 +12,7 @@ const messages: Record<BandFailure['reason'], string> = {
   notSignedIn: 'Sign in again to do that.',
   nameRequired: 'Give your band a name first.',
   notAllowed: 'Only a band leader can do that.',
+  notInBand: "Couldn't save — you may no longer be in this band.",
   offline: "Can't reach Jamly — check your connection.",
   backendUnconfigured: 'This build has no backend configured yet.',
   unknown: 'Something went wrong. Try again.',

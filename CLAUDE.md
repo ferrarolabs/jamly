@@ -63,7 +63,7 @@ agent (see below).
 
 **Current state of the app:** behind an auth gate. `app/(auth)/sign-in.tsx` is all an
 unauthenticated device can reach. `app/index.tsx` is BandHome: your band and its
-roster, or create/join if you have none. `app/band/` creates a band and shares the
+roster (your own row edits what you play in that band), or create/join if you have none. `app/band/` creates a band and shares the
 invite; `app/join/[code].tsx` is the invite link's landing route. Sign-in is email +
 password with sign-up disabled — accounts are created by hand in the dashboard
 (ADR-0008).

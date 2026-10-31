@@ -6,14 +6,14 @@ Solo, part-time project. Currently building **v0.1 — the band loop**, Epic A
 
 ## Read these before doing anything substantial
 
-| Question | Document |
-|---|---|
-| What are we building and why? | [docs/business/01-vision.md](docs/business/01-vision.md) |
-| What is in scope right now? | [docs/product/11-mvp-scope.md](docs/product/11-mvp-scope.md) |
-| What are the nouns? | [docs/product/13-domain-model.md](docs/product/13-domain-model.md) |
-| How is it built? | [docs/tech/30-architecture.md](docs/tech/30-architecture.md) |
-| Code rules | [docs/tech/33-conventions.md](docs/tech/33-conventions.md) |
-| Why is it like this? | [docs/tech/adr/](docs/tech/adr/README.md) |
+| Question                      | Document                                                           |
+| ----------------------------- | ------------------------------------------------------------------ |
+| What are we building and why? | [docs/business/01-vision.md](docs/business/01-vision.md)           |
+| What is in scope right now?   | [docs/product/11-mvp-scope.md](docs/product/11-mvp-scope.md)       |
+| What are the nouns?           | [docs/product/13-domain-model.md](docs/product/13-domain-model.md) |
+| How is it built?              | [docs/tech/30-architecture.md](docs/tech/30-architecture.md)       |
+| Code rules                    | [docs/tech/33-conventions.md](docs/tech/33-conventions.md)         |
+| Why is it like this?          | [docs/tech/adr/](docs/tech/adr/README.md)                          |
 
 `docs/README.md` is the index.
 
@@ -74,6 +74,7 @@ password with sign-up disabled — accounts are created by hand in the dashboard
 npm start           # Expo dev server
 npm run typecheck   # tsc --noEmit
 npm run lint
+npm run format:check   # prettier --check; `npm run format` fixes
 npm test
 ```
 
@@ -112,14 +113,15 @@ an issue.
 Full list in [33-conventions](docs/tech/33-conventions.md#definition-of-done). Who holds
 each line:
 
-- Typecheck, lint, tests pass: `npm run typecheck && npm run lint && npm test` *(you,
-  before saying done; CI on the PR)*
-- New logic has a test where a test is meaningful *(you)*
+- Typecheck, lint, format, tests pass:
+  `npm run typecheck && npm run lint && npm run format:check && npm test` _(you,
+  before saying done; CI on the PR)_
+- New logic has a test where a test is meaningful _(you)_
 - Decisions written to the decision log or an ADR, contradicted docs updated in the
-  same PR *(you write them; Elia checks in review)*
-- Works on iOS **and** Android, read paths work offline, legible in the dark *(Elia, on
+  same PR _(you write them; Elia checks in review)_
+- Works on iOS **and** Android, read paths work offline, legible in the dark _(Elia, on
   real devices — a cloud session can't check these, so don't claim them; list in the
-  PR what he should try)*
+  PR what he should try)_
 
 ## Recording decisions
 

@@ -41,22 +41,22 @@ jamly/
 ### The two structural rules
 
 1. **Screens never import the Supabase client.** All data access goes through `features/*/api/`. This keeps offline, caching and testability tractable ([30-architecture](30-architecture.md)).
-2. **Features are vertical slices.** Everything for setlists lives under `features/setlist/`. Shared code moves to `src/components` or `src/lib` only when a *second* feature actually needs it — not in anticipation.
+2. **Features are vertical slices.** Everything for setlists lives under `features/setlist/`. Shared code moves to `src/components` or `src/lib` only when a _second_ feature actually needs it — not in anticipation.
 
 ---
 
 ## Naming
 
-| Thing | Convention | Example |
-|---|---|---|
-| Component files | `PascalCase.tsx` | `SetlistItemRow.tsx` |
-| Hooks | `useThing.ts` | `useNextEvent.ts` |
-| Repositories | `thing.repo.ts` | `setlist.repo.ts` |
-| Types | `PascalCase` | `SetlistItem` |
-| Fields (TS) | `camelCase` | `durationSeconds` |
-| Fields (DB) | `snake_case` | `duration_seconds` |
-| Route files | `kebab-case` / Expo Router conventions | `join/[code].tsx` |
-| Booleans | `is` / `has` / `can` prefix | `isAttachedToLiveSession` |
+| Thing           | Convention                             | Example                   |
+| --------------- | -------------------------------------- | ------------------------- |
+| Component files | `PascalCase.tsx`                       | `SetlistItemRow.tsx`      |
+| Hooks           | `useThing.ts`                          | `useNextEvent.ts`         |
+| Repositories    | `thing.repo.ts`                        | `setlist.repo.ts`         |
+| Types           | `PascalCase`                           | `SetlistItem`             |
+| Fields (TS)     | `camelCase`                            | `durationSeconds`         |
+| Fields (DB)     | `snake_case`                           | `duration_seconds`        |
+| Route files     | `kebab-case` / Expo Router conventions | `join/[code].tsx`         |
+| Booleans        | `is` / `has` / `can` prefix            | `isAttachedToLiveSession` |
 
 **Domain names come from [13-domain-model](../product/13-domain-model.md) and nowhere else.** A `Setlist` is never a `Playlist`, in code or in UI. This is the technical enforcement of [Design Rule 5](../design/20-design-principles.md).
 
@@ -94,12 +94,14 @@ jamly/
 **Branches:** `main` is always releasable. Work on `feat/…`, `fix/…`, `docs/…`, `chore/…`.
 
 **Commits — Conventional Commits:**
+
 ```
 feat(setlist): drag to reorder items
 fix(sync): reattach after connection loss
 docs(adr): add 0004 realtime transport
 chore(deps): bump expo to sdk 56
 ```
+
 Rationale: it's greppable, it makes a changelog free, and — the real reason for a solo project — `git log` becomes a readable record of what happened when you come back after a gap.
 
 **Pull requests:** used even solo. A PR is a place to reread your own work, and CI runs there. Squash-merge; the PR title becomes the commit.
@@ -111,8 +113,9 @@ Rationale: it's greppable, it makes a changelog free, and — the real reason fo
 ## Definition of done
 
 A piece of work is done when:
+
 - [ ] It works on **iOS and Android** — not one and "probably the other"
-- [ ] Types pass, lint passes, existing tests pass
+- [ ] Types pass, lint passes, formatting passes, existing tests pass
 - [ ] New logic has a test where a test is meaningful
 - [ ] It works **offline** if it's a read path
 - [ ] It respects the theme tokens and is legible in the dark
@@ -131,18 +134,18 @@ A piece of work is done when:
 ## Error handling
 
 - Never swallow an error silently.
-- User-facing messages are in musicians' language: *"Couldn't load the setlist — you're offline"*, not *"Error: NetworkRequestFailed"*.
+- User-facing messages are in musicians' language: _"Couldn't load the setlist — you're offline"_, not _"Error: NetworkRequestFailed"_.
 - **Never a modal error during performance mode** ([anti-patterns](../design/20-design-principles.md)). Degrade quietly and keep the show running.
 - Log to crash reporting; never log personal data or file contents.
 
 ## Performance budgets
 
-| Budget | Target | Source |
-|---|---|---|
-| Cold start to usable | < 2s mid-range Android | [N1](../product/11-mvp-scope.md) |
-| Repertoire scroll | 60fps at 200 songs | [N1](../product/11-mvp-scope.md) |
-| Chart open from cache | < 1s | [N6](../product/11-mvp-scope.md) |
-| Live sync propagation | < 2s | [N2](../product/11-mvp-scope.md) |
+| Budget                | Target                 | Source                           |
+| --------------------- | ---------------------- | -------------------------------- |
+| Cold start to usable  | < 2s mid-range Android | [N1](../product/11-mvp-scope.md) |
+| Repertoire scroll     | 60fps at 200 songs     | [N1](../product/11-mvp-scope.md) |
+| Chart open from cache | < 1s                   | [N6](../product/11-mvp-scope.md) |
+| Live sync propagation | < 2s                   | [N2](../product/11-mvp-scope.md) |
 
 Measured on a real mid-range Android device, not a simulator. The simulator is always fast enough and always lying.
 

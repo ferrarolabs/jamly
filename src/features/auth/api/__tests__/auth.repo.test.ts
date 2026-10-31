@@ -39,7 +39,10 @@ describe('signInWithPassword', () => {
 
     const result = await signInWithPassword('ferraro.eli.99@gmail.com', 'pw');
 
-    expect(result).toEqual({ ok: true, user: { id: 'u-1', email: 'ferraro.eli.99@gmail.com' } });
+    expect(result).toEqual({
+      ok: true,
+      user: { id: 'u-1', email: 'ferraro.eli.99@gmail.com' },
+    });
   });
 
   it('normalises the address before it leaves the device', async () => {

@@ -49,7 +49,7 @@ export default function JoinScreen() {
       <Screen>
         <ScreenHeader
           title={result.bandName}
-          subtitle={result.outcome === 'joined' ? "You're in." : "You were already in."}
+          subtitle={result.outcome === 'joined' ? "You're in." : 'You were already in.'}
         />
         <Button label="Go to the band" onPress={() => router.replace('/')} />
       </Screen>

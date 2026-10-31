@@ -48,12 +48,11 @@ describe('toAuthFailure', () => {
 
   it('keeps confirmation and lockout distinguishable — both are actionable', () => {
     expect(
-      toAuthFailure(new AuthApiError('Email not confirmed', 400, 'email_not_confirmed'))
-        .reason,
+      toAuthFailure(new AuthApiError('Email not confirmed', 400, 'email_not_confirmed')).reason,
     ).toBe('emailNotConfirmed');
-    expect(
-      toAuthFailure(new AuthApiError('User is banned', 403, 'user_banned')).reason,
-    ).toBe('accountBlocked');
+    expect(toAuthFailure(new AuthApiError('User is banned', 403, 'user_banned')).reason).toBe(
+      'accountBlocked',
+    );
   });
 
   it('falls back to something a person can read', () => {

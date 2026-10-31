@@ -115,9 +115,7 @@ describe('joinBandByCode', () => {
   it('treats a second tap on the same link as success, not an error', async () => {
     mockRpc.mockReturnValue(
       resolves({
-        data: [
-          { status: 'already_member', band_id: 'b-1', band_name: 'The Midnight Hours' },
-        ],
+        data: [{ status: 'already_member', band_id: 'b-1', band_name: 'The Midnight Hours' }],
         error: null,
       }),
     );

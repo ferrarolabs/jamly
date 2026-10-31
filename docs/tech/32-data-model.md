@@ -20,6 +20,7 @@
 ## Tables
 
 ### `profiles`
+
 Mirrors `auth.users` with app-level fields. Supabase owns `auth.users`; we never write to it directly.
 
 ```sql
@@ -34,6 +35,7 @@ create table profiles (
   updated_at            timestamptz not null default now()
 );
 ```
+
 `plan` and `plan_grandfathered_at` exist in v0.1 despite everything being free — they make the Phase 2 switch a configuration change and make the [migration rule](../business/05-business-model.md) technically enforceable.
 
 A row appears with its auth user and disappears with it, both by trigger on `auth.users` — so there is no insert or delete policy, and the app never deals with a signed-in user who has no profile. Reads and updates are the owner's own row only, and `plan` is withheld at the **column** level:
@@ -44,9 +46,10 @@ grant select on table profiles to authenticated;
 grant update (display_name, avatar_url) on table profiles to authenticated;
 ```
 
-The policy decides which *row* may be written; the grant decides which *columns*. Without the second, a client holding a valid session could promote itself to `pro`.
+The policy decides which _row_ may be written; the grant decides which _columns_. Without the second, a client holding a valid session could promote itself to `pro`.
 
 ### `bands`
+
 ```sql
 create table bands (
   id          uuid primary key default gen_random_uuid(),
@@ -58,9 +61,11 @@ create table bands (
 );
 create index on bands (invite_code);
 ```
+
 Only `name` is required — every additional required field is friction on the path to value ([Rule 2](../design/20-design-principles.md)). `invite_code` is rotatable if a link leaks.
 
 ### `band_members`
+
 ```sql
 create table band_members (
   id          uuid primary key default gen_random_uuid(),
@@ -74,11 +79,13 @@ create table band_members (
 create index on band_members (user_id);
 create index on band_members (band_id);
 ```
+
 **This is the most important table in the schema** — every RLS policy resolves through it, so its indexes matter for both correctness and performance.
 
 `instruments` is `text[]`, not an enum: musicians play things we didn't anticipate, and "vox + rhythm guitar + occasional harmonica" must be expressible.
 
 ### `songs`
+
 ```sql
 create table songs (
   id               uuid primary key default gen_random_uuid(),
@@ -97,9 +104,11 @@ create table songs (
 create index on songs (band_id);
 create index on songs (band_id, status);
 ```
-Songs are **band-scoped, not global** — see the reasoning in [13-domain-model](../product/13-domain-model.md). Note `notes` here is the *shared* note; the private one lives in `song_personal`.
+
+Songs are **band-scoped, not global** — see the reasoning in [13-domain-model](../product/13-domain-model.md). Note `notes` here is the _shared_ note; the private one lives in `song_personal`.
 
 ### `charts`
+
 ```sql
 create table charts (
   id             uuid primary key default gen_random_uuid(),
@@ -116,11 +125,13 @@ create table charts (
 create index on charts (song_id);
 create index on charts (band_id);
 ```
+
 `band_id` is denormalized deliberately: it keeps the RLS policy a single-join lookup and makes per-band storage totals a trivial `sum(size_bytes)`.
 
 `size_bytes` is recorded **from the first upload**, while storage is unlimited — storage is the only real marginal cost in the system ([05-business-model](../business/05-business-model.md)).
 
 ### `song_personal` ⭐ the seam
+
 ```sql
 create table song_personal (
   id         uuid primary key default gen_random_uuid(),
@@ -133,9 +144,11 @@ create table song_personal (
 );
 create index on song_personal (user_id);
 ```
+
 Small table, largest strategic weight in the schema. `confidence` is unused by the v0.1 UI and modelled now because v0.2's practice list (`F403`) and readiness view (`F405`) depend on it — the moat is built on this column.
 
 ### `events`
+
 ```sql
 create table events (
   id            uuid primary key default gen_random_uuid(),
@@ -156,9 +169,11 @@ create table events (
 );
 create index on events (band_id, starts_at);
 ```
-`(band_id, starts_at)` is the index behind the single most-used query in the app: *the next event for this band* ([story C2](../product/11-mvp-scope.md)).
+
+`(band_id, starts_at)` is the index behind the single most-used query in the app: _the next event for this band_ ([story C2](../product/11-mvp-scope.md)).
 
 ### `event_attendance`
+
 ```sql
 create table event_attendance (
   id         uuid primary key default gen_random_uuid(),
@@ -171,6 +186,7 @@ create table event_attendance (
 ```
 
 ### `setlists`
+
 ```sql
 create table setlists (
   id         uuid primary key default gen_random_uuid(),
@@ -184,9 +200,11 @@ create table setlists (
 create index on setlists (band_id);
 create index on setlists (event_id);
 ```
+
 `on delete set null` on `event_id`: deleting a gig must not destroy the set you spent an hour building.
 
 ### `setlist_items`
+
 ```sql
 create table setlist_items (
   id           uuid primary key default gen_random_uuid(),
@@ -203,11 +221,13 @@ create table setlist_items (
 );
 create index on setlist_items (setlist_id, position);
 ```
+
 `on delete restrict` on `song_id` implements invariant 5 ([13-domain-model](../product/13-domain-model.md)): deleting a song that's in a setlist must fail loudly rather than silently corrupting a set. The app soft-deletes or warns instead.
 
 `position` as an int is intentionally simple. Reordering rewrites positions in a transaction — with sets of 20–40 items, fractional indexing would be premature cleverness.
 
 ### Enum types
+
 ```sql
 create type user_plan         as enum ('free_unlimited', 'free', 'pro');
 create type member_role       as enum ('leader', 'member');
@@ -225,12 +245,15 @@ create type setlist_item_kind as enum ('song', 'break', 'set_marker');
 **RLS is the security boundary.** The client is untrusted. A bug in the app must not be able to leak another band's data ([N7](../product/11-mvp-scope.md)).
 
 Enable on every table:
+
 ```sql
 alter table <t> enable row level security;
 ```
 
 ### The core predicate
+
 Every band-scoped policy reduces to one helper:
+
 ```sql
 create or replace function is_band_member(b uuid)
 returns boolean language sql security definer stable as $$
@@ -242,6 +265,7 @@ $$;
 ```
 
 ### Policy pattern
+
 ```sql
 -- read: members of the band
 create policy "members read songs" on songs
@@ -262,25 +286,32 @@ create policy "leaders delete songs" on songs
               and role = 'leader')
   );
 ```
+
 Applied identically to `songs`, `charts`, `events`, `event_attendance`, `setlists`, `setlist_items` (the last two resolving `band_id` through their parent).
 
 ### The personal exception
+
 ```sql
 create policy "own personal rows only" on song_personal
   for all using (user_id = auth.uid())
   with check (user_id = auth.uid());
 ```
+
 **Bandmates are included in "no one else".** Invariant 3.
 
 ### Joining a band
+
 Joining needs a controlled path — a user who isn't yet a member can't be granted read access to `bands` by the normal policy. A `security definer` function looks up the band by `invite_code` and inserts the membership:
+
 ```sql
 create or replace function join_band_by_code(code text)
 returns uuid language plpgsql security definer as $$ ... $$;
 ```
+
 This is the only place where privilege is deliberately elevated, and it does exactly one thing.
 
 ### Storage
+
 Private bucket `charts`, paths `band/{band_id}/song/{song_id}/{uuid}.pdf`. Storage policies apply the same `is_band_member()` check against the `band_id` segment of the path. Access is only ever via short-lived signed URLs.
 
 ---
@@ -290,6 +321,7 @@ Private bucket `charts`, paths `band/{band_id}/song/{song_id}/{uuid}.pdf`. Stora
 **The highest-value tests in the project.** A broken policy is a data breach, and no UI test will catch it.
 
 Minimum set, run against a local Supabase in CI:
+
 1. User in band A cannot `select` band B's songs, charts, events, setlists
 2. User in band A cannot `insert` into band B
 3. A non-member cannot read a band at all
@@ -302,10 +334,10 @@ Minimum set, run against a local Supabase in CI:
 
 ## Migrations
 
-| File | Contents |
-|---|---|
-| `20260909220000_profiles.sql` | `user_plan` enum, `profiles`, its policies and grants, the `auth.users` triggers, `set_updated_at()` |
-| `20260909223000_move_trigger_functions_out_of_public.sql` | Moves the three trigger functions into a `private` schema, out of the PostgREST-exposed API |
+| File                                                      | Contents                                                                                             |
+| --------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `20260909220000_profiles.sql`                             | `user_plan` enum, `profiles`, its policies and grants, the `auth.users` triggers, `set_updated_at()` |
+| `20260909223000_move_trigger_functions_out_of_public.sql` | Moves the three trigger functions into a `private` schema, out of the PostgREST-exposed API          |
 
 Tables arrive with the feature that needs them (D28), so this table is the schema until the next feature is built. The full v0.1 schema this document describes exists in git at `88b39e7` and is reintroduced a table at a time.
 

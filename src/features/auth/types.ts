@@ -46,6 +46,4 @@ export type AuthFailure = {
 };
 
 /** Repositories never throw at a screen: every call resolves to one of these. */
-export type SignInResult =
-  | { ok: true; user: AuthUser }
-  | { ok: false; failure: AuthFailure };
+export type SignInResult = { ok: true; user: AuthUser } | { ok: false; failure: AuthFailure };

@@ -64,7 +64,7 @@ npx supabase config push
 
 There is no self-serve sign-up ([ADR-0008](docs/tech/adr/0008-email-password-auth-now-otp-later.md)) —
 `enable_signup = false` in `supabase/config.toml` is what closes it. Create accounts in the
-dashboard under **Authentication → Users → Add user**, with *Auto Confirm User* ticked;
+dashboard under **Authentication → Users → Add user**, with _Auto Confirm User_ ticked;
 a profile row appears for each one automatically.
 
 After any migration, run `npx supabase db advisors` — it catches exposure mistakes that
@@ -77,14 +77,14 @@ The secret key must never appear in this app, in any environment.
 `docs/` is the project's memory — the business case, every product decision, and the
 reasoning behind each technical choice. Start at **[docs/README.md](docs/README.md)**.
 
-| | |
-|---|---|
-| [Vision](docs/business/01-vision.md) | The full ecosystem this is heading toward |
-| [Market & competitors](docs/business/02-market-and-competitors.md) | Who else is here and where the gaps are |
-| [MVP scope](docs/product/11-mvp-scope.md) | What v0.1 actually is |
-| [Roadmap](docs/product/12-roadmap.md) | v0.1 → v1.0 |
-| [Architecture](docs/tech/30-architecture.md) | How it's built |
-| [ADRs](docs/tech/adr/README.md) | Why it's built that way |
+|                                                                    |                                           |
+| ------------------------------------------------------------------ | ----------------------------------------- |
+| [Vision](docs/business/01-vision.md)                               | The full ecosystem this is heading toward |
+| [Market & competitors](docs/business/02-market-and-competitors.md) | Who else is here and where the gaps are   |
+| [MVP scope](docs/product/11-mvp-scope.md)                          | What v0.1 actually is                     |
+| [Roadmap](docs/product/12-roadmap.md)                              | v0.1 → v1.0                               |
+| [Architecture](docs/tech/30-architecture.md)                       | How it's built                            |
+| [ADRs](docs/tech/adr/README.md)                                    | Why it's built that way                   |
 
 ## Stack
 

@@ -3,6 +3,8 @@ import { StyleSheet, View } from 'react-native';
 import { Card, Text } from '@/components';
 import { spacing } from '@/theme';
 import type { RosterMember } from '../types';
+import { MyRosterRow } from './MyRosterRow';
+import { RosterRow } from './RosterRow';
 
 /**
  * Who is in the band.
@@ -16,7 +18,19 @@ import type { RosterMember } from '../types';
  * model: in a band where everyone knows each other, somebody who was never
  * invited is obvious at a glance.
  */
-export function Roster({ members }: { members: RosterMember[] }) {
+export function Roster({
+  bandId,
+  members,
+  myUserId,
+  onEditingChange,
+}: {
+  bandId: string;
+  members: RosterMember[];
+  /** Only this member's row gets "Edit" (story A4). */
+  myUserId: string | null;
+  /** True while my instruments editor is open. */
+  onEditingChange?: (isEditing: boolean) => void;
+}) {
   return (
     <Card>
       <Text variant="heading">
@@ -24,20 +38,18 @@ export function Roster({ members }: { members: RosterMember[] }) {
       </Text>
 
       <View style={styles.list}>
-        {members.map((member) => (
-          <View key={member.userId} style={styles.row}>
-            <Text>{member.displayName ?? 'Name not set yet'}</Text>
-
-            <Text variant="caption" tone="muted">
-              {[
-                member.role === 'leader' ? 'Leader' : null,
-                member.instruments.length ? member.instruments.join(', ') : null,
-              ]
-                .filter(Boolean)
-                .join(' · ') || 'Member'}
-            </Text>
-          </View>
-        ))}
+        {members.map((member) =>
+          member.userId === myUserId ? (
+            <MyRosterRow
+              key={member.userId}
+              bandId={bandId}
+              member={member}
+              onEditingChange={onEditingChange}
+            />
+          ) : (
+            <RosterRow key={member.userId} member={member} />
+          ),
+        )}
       </View>
     </Card>
   );
@@ -47,8 +59,5 @@ const styles = StyleSheet.create({
   list: {
     marginTop: spacing.sm,
     gap: spacing.md,
-  },
-  row: {
-    gap: spacing.xs,
   },
 });

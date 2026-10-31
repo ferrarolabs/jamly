@@ -48,11 +48,11 @@ Five tabs. Not four, not seven — these are the five nouns a band actually has.
 
 ### Band tab
 
-| Screen          | Purpose                             | Key content                                                                            |
-| --------------- | ----------------------------------- | -------------------------------------------------------------------------------------- |
-| `BandHome` ⭐   | **The default screen.** What's next | Next event (large), one-tap availability, its setlist, member list. Zero taps to value |
-| `BandSettings`  | Name, invite link, leave band       | Sparse on purpose                                                                      |
-| `MemberProfile` | A member's instruments and role     |                                                                                        |
+| Screen          | Purpose                             | Key content                                                                                                                                                                     |
+| --------------- | ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `BandHome` ⭐   | **The default screen.** What's next | Next event (large), one-tap availability, its setlist, member list. Zero taps to value. **My own row on the member list has "Edit" for my instruments in this band** (story A4) |
+| `BandSettings`  | Name, invite link, leave band       | Sparse on purpose                                                                                                                                                               |
+| `MemberProfile` | A member's instruments and role     | My own instruments are edited on `BandHome`, not here                                                                                                                           |
 
 ### Repertoire tab
 
@@ -84,9 +84,11 @@ Five tabs. Not four, not seven — these are the five nouns a band actually has.
 
 | Screen      | Purpose                                                |
 | ----------- | ------------------------------------------------------ |
-| `MyProfile` | Display name, avatar, instruments                      |
+| `MyProfile` | Display name, avatar                                   |
 | `MyNotes`   | All my personal song notes in one place                |
 | `Settings`  | Theme, notifications, sign out, **data export**, about |
+
+Instruments are not in `MyProfile`: they belong to a membership, not to the person, so the same drummer can play keys in a second band. They are edited on each band's roster ([decision log D51](../process/41-decision-log.md)).
 
 ---
 

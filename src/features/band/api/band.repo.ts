@@ -6,7 +6,9 @@ import type {
   JoinResult,
   RosterMember,
   RotateInviteResult,
+  UpdateInstrumentsResult,
 } from '../types';
+import { normaliseInstruments } from '../instruments';
 import { bandFailure, toBandFailure } from './bandErrors';
 
 /**
@@ -194,4 +196,53 @@ export async function rotateInviteCode(bandId: Uuid): Promise<RotateInviteResult
   } catch (cause) {
     return { ok: false, failure: toBandFailure(cause) };
   }
+}
+
+/**
+ * Story A4: what I play in this band.
+ *
+ * Writes only `instruments`, and only on my own membership row. The database
+ * enforces both anyway — a column grant and an update policy in
+ * 20260916090000_bands.sql — so this is the app agreeing with it, not the
+ * security boundary.
+ *
+ * Instruments are per band: the row is picked by band AND user, so another
+ * band's list is never touched.
+ */
+export async function updateMyInstruments(
+  bandId: Uuid,
+  userId: Uuid,
+  instruments: readonly string[],
+): Promise<UpdateInstrumentsResult> {
+  if (!isBackendConfigured) {
+    return { ok: false, failure: bandFailure('backendUnconfigured') };
+  }
+
+  try {
+    const { data, error } = await getSupabase()
+      .from('band_members')
+      .update({ instruments: normaliseInstruments(instruments) })
+      .eq('band_id', bandId)
+      .eq('user_id', userId)
+      .select('instruments')
+      .returns<{ instruments: string[] | null }[]>();
+
+    if (error) return { ok: false, failure: toInstrumentsFailure(error) };
+
+    // Row-level security does not raise on an update it filters out: it
+    // updates nothing and says nothing. No row back means it was refused, most
+    // likely because I am no longer in the band.
+    const row = data?.[0];
+    if (!row) return { ok: false, failure: bandFailure('notInBand') };
+
+    return { ok: true, instruments: row.instruments ?? [] };
+  } catch (cause) {
+    return { ok: false, failure: toInstrumentsFailure(cause) };
+  }
+}
+
+/** "Only a band leader can do that" would be wrong here: nobody else can do it either. */
+function toInstrumentsFailure(error: unknown) {
+  const failure = toBandFailure(error);
+  return failure.reason === 'notAllowed' ? bandFailure('notInBand') : failure;
 }

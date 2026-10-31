@@ -1,8 +1,9 @@
 import { router } from 'expo-router';
+import { useState } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
 import { Button, Card, Screen, ScreenHeader, Text } from '@/components';
-import { useAuth } from '@/features/auth';
+import { useAuth, useAuthUser } from '@/features/auth';
 import { JoinByCodeForm, Roster, useBandRoster, useCurrentBand } from '@/features/band';
 import { colors, spacing } from '@/theme';
 
@@ -17,6 +18,11 @@ export default function BandHomeScreen() {
   const { membership, isPending, isError, refetch } = useCurrentBand();
   const roster = useBandRoster(membership?.band.id ?? null);
   const { signOut } = useAuth();
+  const user = useAuthUser();
+  // While I edit my instruments, Save is the only primary action on screen
+  // (decision log D55). Hiding "Invite the band" also stops me leaving with an
+  // unsaved draft.
+  const [isEditingInstruments, setEditingInstruments] = useState(false);
 
   if (isPending) {
     return (
@@ -98,14 +104,21 @@ export default function BandHomeScreen() {
           <Text tone="secondary">Couldn&apos;t load who&apos;s in the band.</Text>
         </Card>
       ) : (
-        <Roster members={roster.data ?? []} />
+        <Roster
+          bandId={band.id}
+          members={roster.data ?? []}
+          myUserId={user?.id ?? null}
+          onEditingChange={setEditingInstruments}
+        />
       )}
 
-      <Button
-        label="Invite the band"
-        onPress={() => router.push('/band/invite')}
-        style={styles.card}
-      />
+      {isEditingInstruments ? null : (
+        <Button
+          label="Invite the band"
+          onPress={() => router.push('/band/invite')}
+          style={styles.card}
+        />
+      )}
 
       <SignOut onPress={() => void signOut()} />
     </Screen>

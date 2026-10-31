@@ -6,6 +6,8 @@
 
 import { AuthApiError } from '@supabase/supabase-js';
 
+import { signInWithPassword, signOut } from '../auth.repo';
+
 const mockSignInWithPassword = jest.fn();
 const mockSignOut = jest.fn().mockResolvedValue({ error: null });
 const mockState = { configured: true };
@@ -21,8 +23,6 @@ jest.mock('@/lib/supabase', () => ({
     },
   }),
 }));
-
-import { signInWithPassword, signOut } from '../auth.repo';
 
 beforeEach(() => {
   mockState.configured = true;

@@ -5,6 +5,8 @@
  * this layer (docs/tech/33-conventions.md).
  */
 
+import { createBand, joinBandByCode, rotateInviteCode } from '../band.repo';
+
 const mockRpc = jest.fn();
 const mockState = { configured: true };
 
@@ -16,8 +18,6 @@ jest.mock('@/lib/supabase', () => ({
     rpc: mockRpc,
   }),
 }));
-
-import { createBand, joinBandByCode, rotateInviteCode } from '../band.repo';
 
 /** postgrest-js returns a thenable builder, which awaits like a promise. */
 function resolves(value: unknown) {

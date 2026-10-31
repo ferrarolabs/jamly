@@ -60,6 +60,12 @@ Everything here is versioned in git alongside the app. If a decision changes, th
 | [41 — Decision Log](process/41-decision-log.md)       | Chronological log of smaller decisions that don't warrant an ADR.                      |
 | [42 — Project Board](process/42-project-board.md)     | Labels, milestones and the GitHub Project: what needs Elia, what an agent can pick up. |
 
+## Learn — what each feature taught
+
+One note per feature PR, for Elia: how it is built, the concepts behind it, the alternatives rejected.
+
+- [A4 — What I play in this band](learn/a4-instruments.md)
+
 ---
 
 ## Rules for these documents

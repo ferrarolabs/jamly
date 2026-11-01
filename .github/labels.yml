@@ -36,17 +36,6 @@
   color: 'f9d0c4'
   description: Code is done; Elia must check it on iOS and Android, offline and in the dark
 
-# --- Priority: within the current milestone.
-- name: 'priority:now'
-  color: 'b60205'
-  description: Next thing to do
-- name: 'priority:next'
-  color: 'ff9f1c'
-  description: After the current ones
-- name: 'priority:later'
-  color: 'c5def5'
-  description: In scope, not urgent
-
 # --- Epic: where in v0.1 this belongs (docs/product/11-mvp-scope.md).
 - name: 'epic:A-getting-in'
   color: 'd4c5f9'

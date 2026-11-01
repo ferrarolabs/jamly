@@ -108,6 +108,15 @@ than the outcome, and because the reversal itself was the decision.
 
 ---
 
+## 2026-11-01 — The kit follows the pilot
+
+| #   | Decision                                                                                                                                                   | Why                                                                                                                                                                                            | See                                                                                                                                |
+| --- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| D56 | **The board page follows the kit's decisions: Status is derived from labels, the project is a copy of the org template, and there are no priority labels** | The page still described a hand-built project with Status moved by Elia, against agent-kit ADR 0007 and ADR 0008. A wrong document is worse than none. Priority is the org number field, 1–100 | [42-project-board](42-project-board.md), `.github/labels.yml`                                                                      |
+| D57 | **When a harness PR merges here, its generic part is ported to agent-kit**                                                                                 | Waiting for the kit's Phase 4 had already lost a piece: the deny-rule probe behind D48 was never committed. jamly holds the original until the kit's `sync-kit` exists                         | [agent-kit ADR 0014](https://github.com/ferrarolabs/agent-kit/blob/main/docs/decisions/0014-kit-aligned-at-every-harness-merge.md) |
+
+---
+
 ## Open decisions
 
 Deliberately not yet decided. Recorded so they aren't forgotten — and so nobody assumes they were settled.

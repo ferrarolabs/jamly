@@ -106,6 +106,9 @@ an issue.
 - **Product questions stop you.** If the issue doesn't settle a product choice (scope,
   wording, who sees what), don't guess: ask in the PR and stop. Ideas you have along
   the way go to `docs/product/10-feature-inventory.md`, not into the code.
+- **The kit follows this repo.** jamly is agent-kit's pilot. When a harness PR
+  (`area:harness`) merges here, open the PR in agent-kit that ports its generic part
+  ([agent-kit ADR 0014](https://github.com/ferrarolabs/agent-kit/blob/main/docs/decisions/0014-kit-aligned-at-every-harness-merge.md)).
 - **Expo docs:** read the v57 docs (see `AGENTS.md`). APIs changed; memory is wrong.
 
 ## Definition of done

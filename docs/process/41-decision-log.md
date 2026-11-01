@@ -117,6 +117,22 @@ than the outcome, and because the reversal itself was the decision.
 
 ---
 
+## 2026-11-01 — Command log
+
+| #   | Decision                                                                                                                                      | Why                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | See                                                                   |
+| --- | --------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| D58 | **Every Bash command an agent runs is logged by hooks, and the log is published as one comment per session on the issue named by the branch** | A cloud container is destroyed with its history, and the Record column can't be filled in later. Committing the log was rejected: every command changes it, so the tree is never clean and the cloud Stop hook, which refuses to stop with uncommitted changes, would loop. A denied command fires the "before" hook and nothing after, so an attempt with no outcome reads as denied. Commands are redacted before they are written, because the repo and its issues are public | `.claude/hooks/command-log.js`, [learn note](../learn/command-log.md) |
+
+---
+
+## 2026-11-01 — Every force-push denied
+
+| #   | Decision                                                                                                                                                                                        | Why                                                                                                                                                                                                                                                                                          | See                                                                                                          |
+| --- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| D59 | **Force-push is denied in every spelling: `--force`, `--force-with-lease`, `--force-if-includes`, `-f`, before or after the remote. The deny-rule probe runs after every change to deny rules** | The kit's rebuilt probe found three force-pushes passing: `Bash(git push --force *)` needs a space after `--force`, and nothing matched a flag at the end. Rulesets protect `dev`, `staging` and `main`, but not feature branches, where a force-push can still erase another session's work | `.claude/settings.json`, [agent-kit probe](https://github.com/ferrarolabs/agent-kit/tree/main/scripts/probe) |
+
+---
+
 ## Open decisions
 
 Deliberately not yet decided. Recorded so they aren't forgotten — and so nobody assumes they were settled.

@@ -47,3 +47,7 @@ coverage/
 
 # Supabase CLI link state (project ref, pooler settings) — machine-local.
 supabase/.temp/
+
+# command log: one file per agent session, published on the issue at every Stop
+# (.claude/hooks/command-log.js). Never committed: it changes after every command.
+.claude/logs/

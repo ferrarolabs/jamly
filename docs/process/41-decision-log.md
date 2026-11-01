@@ -116,6 +116,14 @@ than the outcome, and because the reversal itself was the decision.
 
 ---
 
+## 2026-11-01 — Every force-push denied
+
+| #   | Decision                                                                                                                                                                                        | Why                                                                                                                                                                                                                                                                                          | See                                                                                                          |
+| --- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| D59 | **Force-push is denied in every spelling: `--force`, `--force-with-lease`, `--force-if-includes`, `-f`, before or after the remote. The deny-rule probe runs after every change to deny rules** | The kit's rebuilt probe found three force-pushes passing: `Bash(git push --force *)` needs a space after `--force`, and nothing matched a flag at the end. Rulesets protect `dev`, `staging` and `main`, but not feature branches, where a force-push can still erase another session's work | `.claude/settings.json`, [agent-kit probe](https://github.com/ferrarolabs/agent-kit/tree/main/scripts/probe) |
+
+---
+
 ## Open decisions
 
 Deliberately not yet decided. Recorded so they aren't forgotten — and so nobody assumes they were settled.

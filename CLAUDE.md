@@ -93,6 +93,9 @@ an issue.
   Start only on issues labelled `agent:ready`; add `agent:working` when you start. If
   you stop for any reason other than done, add `needs:elia` and comment why. When the
   PR is green, add `needs:device-check`.
+- **After any change to the deny rules, run the probe** from agent-kit and paste its
+  output in the PR: `node scripts/probe/probe-deny-rules.js ../jamly
+scripts/probe/push-to-protected-branches.json` (from an agent-kit checkout).
 - **Never touch the live Supabase project.** No `supabase db push`, `config push`,
   `link`, or anything else that writes to the cloud. Write the migration file under
   `supabase/migrations/` and say in the PR that it needs applying; Elia applies it.

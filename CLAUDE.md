@@ -113,6 +113,9 @@ scripts/probe/push-to-protected-branches.json` (from an agent-kit checkout).
   (`area:harness`) merges here, open the PR in agent-kit that ports its generic part
   ([agent-kit ADR 0014](https://github.com/ferrarolabs/agent-kit/blob/main/docs/decisions/0014-kit-aligned-at-every-harness-merge.md)).
 - **Expo docs:** read the v57 docs (see `AGENTS.md`). APIs changed; memory is wrong.
+- **Pick the model by the work, always by full id.** Haiku for atomic, defined work;
+  Sonnet for complex but defined work; Opus for coordination and planning. Never an
+  alias ([agent-kit model policy](https://github.com/ferrarolabs/agent-kit/blob/main/docs/guides/model-policy.md)).
 
 ## Definition of done
 

@@ -106,9 +106,18 @@ scripts/probe/push-to-protected-branches.json` (from an agent-kit checkout).
   `needs:elia` only for what only Elia can do, and say what you tried, the alternative
   you prepared and your recommendation — never just "it doesn't work"
   ([agent-kit ADR 0010](https://github.com/ferrarolabs/agent-kit/blob/main/docs/decisions/0010-agents-recover-before-they-escalate.md)).
-- **Product questions stop you.** If the issue doesn't settle a product choice (scope,
-  wording, who sees what), don't guess: ask in the PR and stop. Ideas you have along
-  the way go to `docs/product/10-feature-inventory.md`, not into the code.
+- **Plan on the issue, PR only when complete**
+  ([agent-kit work flow](https://github.com/ferrarolabs/agent-kit/blob/main/docs/guides/work-flow.md),
+  [agent-kit ADR 0023](https://github.com/ferrarolabs/agent-kit/blob/main/docs/decisions/0023-plan-on-the-issue-pr-only-when-complete.md)).
+  Post the plan as a comment on the issue before any code, add `needs:elia` and stop.
+  Resume when Elia adds `agent:ready` again, and do what his last comment says. Every
+  change of plan is a new comment. Open the PR only when every "Done when" is met and
+  you've used the result as a user would; no "Elia's steps" in it.
+- **Product questions stop you: ask on the issue, not in a PR.** If the issue doesn't
+  settle a product choice (scope, wording, who sees what), or only Elia can unblock
+  it, don't guess: comment on the issue with the problem and the one thing Elia must
+  do, add `needs:elia`, and stop. No partial PR. Ideas you have along the way go to
+  `docs/product/10-feature-inventory.md`, not into the code.
 - **The kit follows this repo.** jamly is agent-kit's pilot. When a harness PR
   (`area:harness`) merges here, open the PR in agent-kit that ports its generic part
   ([agent-kit ADR 0014](https://github.com/ferrarolabs/agent-kit/blob/main/docs/decisions/0014-kit-aligned-at-every-harness-merge.md)).

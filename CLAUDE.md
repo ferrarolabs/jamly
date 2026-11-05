@@ -89,10 +89,13 @@ an issue.
   promoting between them is Elia's). Always push with the branch named:
   `git push -u origin <your-branch>`. A bare `git push`, `git push origin` or
   `... HEAD` is denied, because it can't be told apart from a push to `dev`.
-- **Labels are the handshake** ([42-project-board](docs/process/42-project-board.md)).
-  Start only on issues labelled `agent:ready`; add `agent:working` when you start. If
-  you stop for any reason other than done, add `needs:elia` and comment why. When the
-  PR is green, add `needs:device-check`.
+- **Stage is the handshake** ([42-project-board](docs/process/42-project-board.md)).
+  `Stage` is an org issue field. Find work with the GitHub MCP `list_issues` and
+  `field_filters: [{field_name: "Stage", value: "Ready"}]`; GitHub search can't filter
+  on it. Start only on `Ready`; set `Working` when you start. If you stop for any
+  reason other than done, set `Asking` and say in a comment what Elia must do. When
+  the PR is complete and green, set `In validation`, and say in the PR what Elia
+  should check on a device. Never set `Ready`: that one is Elia's.
 - **After any change to the deny rules, run the probe** from agent-kit and paste its
   output in the PR: `node scripts/probe/probe-deny-rules.js ../jamly
 scripts/probe/push-to-protected-branches.json` (from an agent-kit checkout).
@@ -102,21 +105,21 @@ scripts/probe/push-to-protected-branches.json` (from an agent-kit checkout).
   The cloud session has no Supabase credentials, by design.
 - **No EAS builds or submissions.** Those are Elia's, from his machine.
 - **Recover before you stop.** When something fails, read the real error, try the
-  alternatives (another tool, endpoint or source) and fix what's reversible. Add
-  `needs:elia` only for what only Elia can do, and say what you tried, the alternative
+  alternatives (another tool, endpoint or source) and fix what's reversible. Set
+  `Asking` only for what only Elia can do, and say what you tried, the alternative
   you prepared and your recommendation — never just "it doesn't work"
   ([agent-kit ADR 0010](https://github.com/ferrarolabs/agent-kit/blob/main/docs/decisions/0010-agents-recover-before-they-escalate.md)).
 - **Plan on the issue, PR only when complete**
   ([agent-kit work flow](https://github.com/ferrarolabs/agent-kit/blob/main/docs/guides/work-flow.md),
   [agent-kit ADR 0023](https://github.com/ferrarolabs/agent-kit/blob/main/docs/decisions/0023-plan-on-the-issue-pr-only-when-complete.md)).
-  Post the plan as a comment on the issue before any code, add `needs:elia` and stop.
-  Resume when Elia adds `agent:ready` again, and do what his last comment says. Every
+  Post the plan as a comment on the issue before any code, set `Asking` and stop.
+  Resume when Elia sets `Ready` again, and do what his last comment says. Every
   change of plan is a new comment. Open the PR only when every "Done when" is met and
   you've used the result as a user would; no "Elia's steps" in it.
 - **Product questions stop you: ask on the issue, not in a PR.** If the issue doesn't
   settle a product choice (scope, wording, who sees what), or only Elia can unblock
   it, don't guess: comment on the issue with the problem and the one thing Elia must
-  do, add `needs:elia`, and stop. No partial PR. Ideas you have along the way go to
+  do, set `Asking`, and stop. No partial PR. Ideas you have along the way go to
   `docs/product/10-feature-inventory.md`, not into the code.
 - **The kit follows this repo.** jamly is agent-kit's pilot. When a harness PR
   (`area:harness`) merges here, open the PR in agent-kit that ports its generic part

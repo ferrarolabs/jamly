@@ -8,36 +8,39 @@
 
 ## Two layers, on purpose
 
-| Layer                  | Lives in                                                    | Who reads it        | Holds                                    |
-| ---------------------- | ----------------------------------------------------------- | ------------------- | ---------------------------------------- |
-| **Labels**             | The repo ([`.github/labels.yml`](../../.github/labels.yml)) | Agents **and** Elia | Type, agent state, epic                  |
-| **Org issue fields**   | The `ferrarolabs` organization                              | Agents **and** Elia | Priority (1–100, 100 = do first), Effort |
-| **The GitHub Project** | A copy of the org template "Agent work"                     | Elia                | Status column and the planning views     |
+| Layer                  | Lives in                                                    | Who reads it        | Holds                                 |
+| ---------------------- | ----------------------------------------------------------- | ------------------- | ------------------------------------- |
+| **Issue type**         | The `ferrarolabs` organization                              | Agents **and** Elia | Feature, Task, Bug, Epic, Decision    |
+| **Org issue fields**   | The `ferrarolabs` organization                              | Agents **and** Elia | Stage, Priority, Effort, Review level |
+| **Labels**             | The repo ([`.github/labels.yml`](../../.github/labels.yml)) | Agents **and** Elia | Area                                  |
+| **The GitHub Project** | A copy of the org template "Agent work"                     | Elia                | Status column and the planning views  |
 
-Agents work from a cloud session that reaches issues, labels and issue fields through the REST API, but **not** GitHub Projects. So everything an agent needs to read or signal is a label or an issue field. The Project is a view built on top: it holds no state of its own.
+Agents work from a cloud session that reaches issues, labels and issue fields through the REST API, but **not** GitHub Projects. So everything an agent needs to read or signal is an issue type or an issue field. The Project is a view built on top: it holds no state of its own.
 
 ---
 
-## Labels
+## Stage: the handshake
 
-The full list, with colours and descriptions, is in [`.github/labels.yml`](../../.github/labels.yml). The ones that carry the workflow:
+Stage is an org issue field, single select. It answers one question: whose turn is it? The values and their meaning are defined in agent-kit's [issue-structure.md §3](https://github.com/ferrarolabs/agent-kit/blob/main/docs/issue-structure.md#3-issue-fields) ([ADR 0022](https://github.com/ferrarolabs/agent-kit/blob/main/docs/decisions/0022-issue-structure-types-and-fields.md)).
 
-| Label                | Set by                      | Means                                                                   |
-| -------------------- | --------------------------- | ----------------------------------------------------------------------- |
-| `agent:ready`        | Elia                        | The spec is complete. An agent may start.                               |
-| `agent:working`      | Agent, when it starts       | Someone is on it. Don't start a second agent.                           |
-| `needs:elia`         | Agent or Elia               | Blocked on Elia: a product decision, a plan to approve, a PR to review. |
-| `needs:device-check` | Agent, when the PR is green | Code is done. Elia checks iOS + Android, offline, dark.                 |
+| Stage           | Set by                         | Means                                                                      |
+| --------------- | ------------------------------ | -------------------------------------------------------------------------- |
+| `Inbox`         | Whoever opens the issue        | Written, not yet ready for an agent.                                       |
+| `Ready`         | Elia, only                     | The spec is complete. An agent may start.                                  |
+| `Working`       | Agent, when it starts          | Someone is on it. Don't start a second agent.                              |
+| `Asking`        | Agent                          | Waiting on Elia: a decision, a plan verdict. The last comment says what.   |
+| `In validation` | Agent, when the PR is complete | Code is done. Elia reviews, tries it, checks iOS + Android, offline, dark. |
+| `Done`          | On close                       | Closed.                                                                    |
 
-Plus one `type:*` per issue, and one `epic:*` for product work (`area:harness` for work on how agents operate). There are no priority labels: Priority is the org field.
+Agents find `Ready` work with the GitHub MCP `list_issues` and a `field_filters` on Stage. GitHub's search API can't filter on it.
 
 **Rules:**
 
-1. An issue without `agent:ready` is not started by an agent, however obvious it looks.
-2. An agent that stops for any reason other than "done" adds `needs:elia` and says why in a comment.
-3. `needs:*` labels are removed by Elia when he's dealt with them.
+1. An issue that isn't `Ready` is not started by an agent, however obvious it looks.
+2. An agent that stops for any reason other than "done" sets `Asking` and says why in a comment.
+3. Elia answers in a comment and sets `Ready` again.
 
-The agent labels are due to be replaced by an org issue field, Stage ([ADR 0009](https://github.com/ferrarolabs/agent-kit/blob/main/docs/decisions/0009-issue-data-in-issue-fields.md), [Replace the agent labels with Stage](https://github.com/ferrarolabs/agent-kit/issues/82)). Until that lands, labels are the handshake.
+**Labels** keep only what can have several values and is jamly's own: `area:harness` for work on how agents operate ([`.github/labels.yml`](../../.github/labels.yml)). The `type:*` labels stay until the issue forms set the type ([agent-kit #147](https://github.com/ferrarolabs/agent-kit/issues/147)). There are no priority, agent-state or epic labels: Priority and Stage are fields, an epic is an Epic issue.
 
 ---
 
@@ -52,28 +55,17 @@ One per roadmap milestone ([12-roadmap](../product/12-roadmap.md)), created when
 **Nobody builds it by hand and nobody moves its cards.**
 
 - It is created as a copy of the org template [Agent work](https://github.com/orgs/ferrarolabs/projects/3) with `scripts/projects/build-project.js --from-template` in agent-kit. The template's fields, views and workflows come with it; [`.github/project-extra-views.json`](../../.github/project-extra-views.json) adds jamly's own view on top.
-- **Status is derived, never set by hand.** It follows the labels and the issue and PR events. When they disagree, the labels win: they are what the agents act on.
+- **Status is derived, never set by hand.** It is meant to mirror Stage ([Stage ⇄ Status reconciler](https://github.com/ferrarolabs/agent-kit/issues/78)). When they disagree, Stage wins: it is what the agents act on.
 
-### Status from labels
+### Status
 
-| Status       | Comes from                  |
-| ------------ | --------------------------- |
-| Inbox        | added, no agent label       |
-| Ready        | `agent:ready`               |
-| In progress  | `agent:working`             |
-| Needs me     | `needs:elia`, or an open PR |
-| Device check | `needs:device-check`        |
-| Done         | closed or merged            |
-
-The mapping is `statusFromLabels` in the kit's [`project-template.json`](https://github.com/ferrarolabs/agent-kit/blob/main/scripts/projects/project-template.json).
+The template still derives Status from the old labels (`statusFromLabels` in the kit's [`project-template.json`](https://github.com/ferrarolabs/agent-kit/blob/main/scripts/projects/project-template.json)). It is redefined on issue fields by [Define the project template's board](https://github.com/ferrarolabs/agent-kit/issues/140). Until then the board is not used.
 
 ### Views
 
-The template's views: **Needs me**, **Flow**, **Ready for agents**, **Stalled**, **Milestone**, **Shipped**, sorted by Priority. jamly adds one:
+The template's views: **Needs me**, **Flow**, **Ready for agents**, **Stalled**, **Milestone**, **Shipped**, sorted by Priority. They are redefined with the board ([agent-kit #140](https://github.com/ferrarolabs/agent-kit/issues/140)).
 
-| View            | Layout | Filter                     | Answers                        |
-| --------------- | ------ | -------------------------- | ------------------------------ |
-| **Audit inbox** | Table  | `is:open label:type:audit` | What has the auditor proposed? |
+jamly had one extra view, **Audit inbox** (`is:open label:type:audit`). `type:audit` is dropped: an auditor's proposal is its own type with Stage `Inbox`. The view comes back on issue fields with the board, so [`.github/project-extra-views.json`](../../.github/project-extra-views.json) is empty for now.
 
 ---
 
@@ -82,12 +74,12 @@ The template's views: **Needs me**, **Flow**, **Ready for agents**, **Stalled**,
 Said plainly, so nobody assumes otherwise:
 
 - **The jamly Project doesn't exist right now.** The first one was built before the template and was deleted (ADR 0008). It is recreated as a copy once the template is finalised by hand ([Configure the "Agent work" project template once](https://github.com/ferrarolabs/agent-kit/issues/20), [Create the Jamly and agent-kit projects as copies](https://github.com/ferrarolabs/agent-kit/issues/22)).
-- **The Action that sets Status from labels isn't built** ([Action: keep project Status in step with labels](https://github.com/ferrarolabs/agent-kit/issues/19)). Until it is, only the template's built-in workflows move Status (added, closed, merged).
+- **The reconciler that mirrors Stage into Status isn't built** ([Stage ⇄ Status reconciler](https://github.com/ferrarolabs/agent-kit/issues/78)). Until it is, only the template's built-in workflows move Status (added, closed, merged).
 
-Until then, the labels and these saved searches answer the two questions:
+Until then, the issue list answers the two questions, filtered on the Stage field:
 
-- What needs me? `is:open label:needs:elia,needs:device-check repo:ferrarolabs/jamly`
-- What can an agent pick up? `is:open label:agent:ready -label:agent:working repo:ferrarolabs/jamly`
+- What needs me? Stage `Asking` or `In validation`.
+- What can an agent pick up? Stage `Ready`.
 
 ---
 

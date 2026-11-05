@@ -92,12 +92,12 @@ an issue.
 - **Stage is the handshake** ([42-project-board](docs/process/42-project-board.md)).
   `Stage` is an org issue field. Find work with the GitHub MCP `list_issues` and
   `field_filters: [{field_name: "Stage", value: "Ready"}]`; GitHub search can't filter
-  on it. Set it with `issue_write` and
-  `issue_fields: [{field_name: "Stage", field_option_name: "Working"}]`. An empty
-  list means nothing is `Ready`. Start only on `Ready`; set `Working` when you start. If you stop for any
-  reason other than done, set `Asking` and say in a comment what Elia must do. When
-  the PR is complete and green, set `In validation`, and say in the PR what Elia
-  should check on a device. Never set `Ready`: that one is Elia's.
+  on it. An empty list means nothing is `Ready`. Set it with `issue_write` and
+  `issue_fields: [{field_name: "Stage", field_option_name: "Working"}]`. Start only
+  on `Ready`; set `Working` when you start. If you stop for any reason other than
+  done, set `Asking` and say in a comment what Elia must do. When the PR is complete
+  and green, set `In validation`, and say in the PR what Elia should check on a
+  device. Never set `Ready`: that one is Elia's.
 - **After any change to the deny rules, run the probe** from agent-kit and paste its
   output in the PR: `node scripts/probe/probe-deny-rules.js ../jamly
 scripts/probe/push-to-protected-branches.json` (from an agent-kit checkout).

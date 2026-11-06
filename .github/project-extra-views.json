@@ -1,12 +1,4 @@
 {
-  "$comment": "Views jamly adds on top of the template. Repo-specific views are allowed on top, never instead.",
-  "views": [
-    {
-      "name": "Audit inbox",
-      "layout": "TABLE_LAYOUT",
-      "filter": "is:open label:type:audit",
-      "fields": ["Title", "Priority", "Labels"],
-      "manual": "Sort by Created, newest first."
-    }
-  ]
+  "$comment": "Views jamly adds on top of the template. Repo-specific views are allowed on top, never instead. The Audit inbox view filtered on label type:audit, which is dropped (agent-kit issue-structure.md §5): it comes back on issue fields with the board redefinition (agent-kit #140).",
+  "views": []
 }
